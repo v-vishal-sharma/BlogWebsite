@@ -15,8 +15,10 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+let posts = [];
+
 app.get("/",function(req,res){
-  res.render("home", {homeStartingContent:homeStartingContent});
+  res.render("home", {homeStartingContent:homeStartingContent, posts:posts});
 });
 
 app.get("/about",function(req,res){
@@ -29,12 +31,31 @@ app.get("/contact",function(req,res){
 
 app.get("/compose", function(req,res){
   res.render("compose");
-})
+});
 
 app.post("/compose", function(req,res){
+
+  const post = {
+    title: req.body.postTitle,
+    content: req.body.postContent
+  }
+  posts.push(post);  
+  res.redirect("/");
+});
+
+app.get("/posts/:postName", function(req,res){
+  const postParam = req.params.postName;
+  
+  posts.forEach(function(p){
+    const storedTitle = p.title;
+    if(p.title === postParam){
+      console.log("Match Found!");
+    }else{
+      console.log("Nu-uh");
+    }
+  })
+
 })
-
-
 
 
 app.listen(3000, function() {
