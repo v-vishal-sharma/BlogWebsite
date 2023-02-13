@@ -51,8 +51,6 @@ app.get("/posts/:postName", function(req,res){
     const storedTitle = _.kebabCase(p.title);
     if(storedTitle === postParam){
       res.render("post",{seperatePostTitle:p.title, seperatePostContent:p.content});
-    }else{
-      console.log("Nu-uh");
     }
   })
 
